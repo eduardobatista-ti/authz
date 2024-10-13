@@ -1,0 +1,21 @@
+services:
+  postgres-development:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: database_docker
+      POSTGRES_PASSWORD: dockerpass
+      POSTGRES_DB: database_docker
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres_network
+
+volumes:
+  postgres_data:
+
+networks:
+  postgres_network:
+    driver: bridge

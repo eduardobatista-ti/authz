@@ -8,9 +8,9 @@ import {
 } from "typeorm";
 import { hashSync } from "bcrypt";
 
-@Entity({ name: "users" })
+@Entity("users")
 export class UsersEntity {
-  @PrimaryGeneratedColumn("increment")
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ name: "first_name" })

@@ -10,17 +10,16 @@ import {
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { Public } from "src/auth/constants/constants";
 
 @Controller("users")
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Public()
   @Get()
   async index() {
     return this.usersService.FindAll();
   }
+
   @Post()
   async store(@Body() body: CreateUserDto) {
     return await this.usersService.store(body);

@@ -2,6 +2,7 @@ import {
   BeforeInsert,
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -30,6 +31,9 @@ export class UsersEntity {
 
   @UpdateDateColumn({ name: "updated_at" })
   updatedAt: string;
+
+  @DeleteDateColumn({ name: "deleted_at" })
+  deletedAt: string;
 
   @BeforeInsert()
   hashedPassword() {

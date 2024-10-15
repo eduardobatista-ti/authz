@@ -24,6 +24,7 @@ export class UsersController {
   async store(@Body() body: CreateUserDto) {
     return await this.usersService.store(body);
   }
+
   @Get(":id")
   async show(@Param("id") id: number) {
     return await this.usersService.FindOneOrFail({ where: { id } });

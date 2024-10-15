@@ -24,14 +24,16 @@ exports.AuthModule = AuthModule = __decorate([
             users_module_1.UsersModule,
             jwt_1.JwtModule.register({
                 privateKey: process.env.APP_SECRET,
-                signOptions: { expiresIn: '60s' },
+                signOptions: { expiresIn: "60m" },
             }),
         ],
         controllers: [auth_controller_1.AuthController],
-        providers: [{
+        providers: [
+            {
                 provide: core_1.APP_GUARD,
                 useClass: auth_guard_1.AuthGuard,
-            }]
+            },
+        ],
     })
 ], AuthModule);
 //# sourceMappingURL=auth.module.js.map

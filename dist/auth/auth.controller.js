@@ -13,17 +13,16 @@ exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 let AuthController = class AuthController {
     async logi() { }
-    ;
 };
 exports.AuthController = AuthController;
 __decorate([
     (0, common_1.UseGuards)(),
-    (0, common_1.Post)('login'),
+    (0, common_1.Post)("login"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "logi", null);
 exports.AuthController = AuthController = __decorate([
-    (0, common_1.Controller)('auth')
+    (0, common_1.Controller)("auth")
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map

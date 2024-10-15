@@ -23,7 +23,7 @@ let UsersService = class UsersService {
     }
     async FindAll() {
         return this.userRepository.find({
-            select: ['id', 'firstName', 'lastName', 'email']
+            select: ["id", "firstName", "lastName", "email"],
         });
     }
     async FindOneOrFail(options) {
@@ -46,6 +46,9 @@ let UsersService = class UsersService {
     async destroy(id) {
         await this.userRepository.findOneOrFail({ where: { id } });
         this.userRepository.softDelete({ id });
+    }
+    async findOne(email) {
+        return await this.userRepository.findOne({ where: { email } });
     }
 };
 exports.UsersService = UsersService;

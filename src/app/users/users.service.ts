@@ -42,4 +42,7 @@ export class UsersService {
     await this.userRepository.findOneOrFail({ where: { id } });
     this.userRepository.softDelete({ id });
   }
+  async findOne(email: string): Promise<UsersEntity> {
+    return await this.userRepository.findOne({ where: { email } });
+  }
 }

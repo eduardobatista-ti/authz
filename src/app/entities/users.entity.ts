@@ -1,31 +1,38 @@
-import { BeforeInsert, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import {hashSync} from 'bcrypt';
+import {
+  BeforeInsert,
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
+import { hashSync } from "bcrypt";
 
-@Entity({name: 'users'})
+@Entity({ name: "users" })
 export class UsersEntity {
-    @PrimaryGeneratedColumn('increment')
-    id: number;
+  @PrimaryGeneratedColumn("increment")
+  id: number;
 
-    @Column({name: 'first_name'})
-    firstName: string;
+  @Column({ name: "first_name" })
+  firstName: string;
 
-    @Column({name: 'last_name'})
-    lastName: string;
-    
-    @Column()
-    email: string;
-    
-    @Column()
-    password: string;
-    
-    @CreateDateColumn({name: 'created_at'})
-    createdAt: string; 
-    
-    @UpdateDateColumn({name: 'updated_at'})
-    updatedAt: string;
+  @Column({ name: "last_name" })
+  lastName: string;
 
-    @BeforeInsert()
-    hashPassword() {
-        this.password = hashSync(this.password, 10)
-    }
+  @Column()
+  email: string;
+
+  @Column()
+  password: string;
+
+  @CreateDateColumn({ name: "created_at" })
+  createdAt: string;
+
+  @UpdateDateColumn({ name: "updated_at" })
+  updatedAt: string;
+
+  @BeforeInsert()
+  hashedPassword() {
+    this.password = hashSync(this.password, 10);
+  }
 }

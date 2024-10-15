@@ -26,11 +26,11 @@ exports.AppModule = AppModule = __decorate([
                 username: process.env.DB_USER,
                 password: process.env.DB_PWD,
                 database: process.env.DB_NAME,
-                entities: [__dirname + '/**/*.entity.ts'],
+                entities: [__dirname + "/**/*.entity.ts"],
                 synchronize: true,
             }),
             users_module_1.UsersModule,
-            auth_module_1.AuthModule
+            auth_module_1.AuthModule,
         ],
     })
 ], AppModule);

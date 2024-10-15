@@ -1,8 +1,8 @@
-import { Controller, Post, UseGuards } from '@nestjs/common';
+import { Controller, Post, UseGuards } from "@nestjs/common";
 
-@Controller('auth')
+@Controller("auth")
 export class AuthController {
-    @UseGuards()
-    @Post('login')
-    async logi(){};
+  @UseGuards()
+  @Post("login")
+  async logi() {}
 }

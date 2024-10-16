@@ -10,6 +10,7 @@ import {
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { Public } from "../auth/constants";
 
 @Controller("users")
 export class UsersController {
@@ -22,7 +23,7 @@ export class UsersController {
 
   @Post()
   async store(@Body() body: CreateUserDto) {
-    return await this.usersService.store(body);
+    return await this.usersService.register(body);
   }
 
   @Get(":id")

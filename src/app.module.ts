@@ -2,6 +2,10 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule, TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
 import { UsersModule } from "./app/modules/users.module";
+import { AuthModule } from "./app/auth/auth.module";
+import { APP_GUARD } from "@nestjs/core";
+import { AuthGuard } from "./app/auth/auth.guard";
+import { AuthService } from "./app/auth/auth.service";
 
 @Module({
   imports: [
@@ -17,6 +21,13 @@ import { UsersModule } from "./app/modules/users.module";
       synchronize: true,
     } as TypeOrmModuleOptions),
     UsersModule,
+    AuthModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
   ],
 })
 export class AppModule {}

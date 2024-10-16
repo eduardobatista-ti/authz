@@ -1,8 +1,12 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UsersEntity } from "../entities/users.entity";
 import { FindOneOptions, Repository } from "typeorm";
-import { error } from "console";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 
@@ -27,9 +31,27 @@ export class UsersService {
     }
   }
 
-  async store(data: CreateUserDto) {
-    const user = this.userRepository.create(data);
-    return await this.userRepository.save(user);
+  // async store(data: CreateUserDto) {
+  //   const user = this.userRepository.create(data);
+  //   return await this.userRepository.save(user);
+  // }
+
+  async register(data: CreateUserDto): Promise<UsersEntity> {
+    const existingUser = await this.userRepository.findOne({
+      where: { email: data.email },
+    });
+
+    if (existingUser) {
+      throw new ConflictException("Username already exists");
+    }
+
+    const user = new UsersEntity();
+    user.firstName = data.firstName;
+    user.lastName = data.lastName;
+    user.email = data.email;
+    user.password = data.password;
+
+    return this.userRepository.save(user);
   }
 
   async update(id: number, data: UpdateUserDto) {
@@ -42,7 +64,19 @@ export class UsersService {
     await this.userRepository.findOneOrFail({ where: { id } });
     this.userRepository.softDelete({ id });
   }
+
   async findOne(email: string): Promise<UsersEntity> {
     return await this.userRepository.findOne({ where: { email } });
+  }
+
+  async validateUser(email: string, password: string): Promise<UsersEntity> {
+    const user = await this.userRepository.findOneOrFail({ where: { email } });
+
+    if (!user || user.password !== password) {
+      // In a real application, make sure to hash the password and compare the hashed values
+      throw new UnauthorizedException("Invalid credentials");
+    }
+
+    return user;
   }
 }

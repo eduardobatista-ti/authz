@@ -5,10 +5,10 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UsersEntity } from "../entities/users.entity";
 import { FindOneOptions, Repository } from "typeorm";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { UsersEntity } from "src/entities/users.entity";
 
 @Injectable()
 export class UsersService {

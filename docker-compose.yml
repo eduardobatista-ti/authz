@@ -1,21 +1,22 @@
 services:
-  postgres-development:
-    image: postgres:latest
-    container_name: postgres
+  mariadb-development:
+    image: mariadb:latest
+    container_name: mariadb
     environment:
-      POSTGRES_USER: database_docker
-      POSTGRES_PASSWORD: dockerpass
-      POSTGRES_DB: database_docker
+      MYSQL_ROOT_PASSWORD: dockerpass
+      MYSQL_USER: database_docker
+      MYSQL_PASSWORD: dockerpass
+      MYSQL_DATABASE: database_docker
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mariadb_data:/var/lib/mysql
     ports:
-      - "5434:5432"
+      - "3307:3306"
     networks:
-      - postgres_network
+      - mariadb_network
 
 volumes:
-  postgres_data:
+  mariadb_data:
 
 networks:
-  postgres_network:
+  mariadb_network:
     driver: bridge

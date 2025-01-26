@@ -1,11 +1,10 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule, TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
-import { UsersModule } from "./app/modules/users.module";
-import { AuthModule } from "./app/auth/auth.module";
+import { AuthModule } from "./auth/auth.module";
 import { APP_GUARD } from "@nestjs/core";
-import { AuthGuard } from "./app/auth/auth.guard";
-import { AuthService } from "./app/auth/auth.service";
+import { AuthGuard } from "./auth/auth.guard";
+import { UsersModule } from "./modules/users/users.module";
 
 @Module({
   imports: [

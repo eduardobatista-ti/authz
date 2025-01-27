@@ -3,23 +3,23 @@ import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
-} from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { FindOneOptions, Repository } from "typeorm";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { UpdateUserDto } from "./dto/update-user.dto";
-import { UsersEntity } from "src/entities/users.entity";
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UsersEntity } from 'src/entities/users.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UsersEntity)
-    private readonly userRepository: Repository<UsersEntity>
+    private readonly userRepository: Repository<UsersEntity>,
   ) {}
 
   async FindAll() {
     return this.userRepository.find({
-      select: ["id", "firstName", "lastName", "email"],
+      select: ['id', 'firstName', 'lastName', 'email'],
     });
   }
 
@@ -42,16 +42,9 @@ export class UsersService {
     });
 
     if (existingUser) {
-      throw new ConflictException("Username already exists");
+      throw new ConflictException('Username already exists');
     }
-
-    const user = new UsersEntity();
-    user.firstName = data.firstName;
-    user.lastName = data.lastName;
-    user.email = data.email;
-    user.password = data.password;
-
-    return this.userRepository.save(user);
+    return this.userRepository.save(data);
   }
 
   async update(id: number, data: UpdateUserDto) {
@@ -74,7 +67,7 @@ export class UsersService {
 
     if (!user || user.password !== password) {
       // In a real application, make sure to hash the password and compare the hashed values
-      throw new UnauthorizedException("Invalid credentials");
+      throw new UnauthorizedException('Invalid credentials');
     }
 
     return user;

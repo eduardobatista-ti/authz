@@ -26,6 +26,27 @@ export class UsersEntity {
   @Column()
   password: string;
 
+  @Column()
+  zip_code: string;
+
+  @Column()
+  state: string;
+
+  @Column()
+  city: string;
+
+  @Column()
+  neighborhood: string;
+
+  @Column()
+  street: string;
+
+  @Column()
+  number: string;
+
+  @Column()
+  complement: string;
+
   @CreateDateColumn({ name: "created_at" })
   createdAt: string;
 

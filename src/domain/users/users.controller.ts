@@ -22,6 +22,7 @@ export class UsersController {
     private readonly commandBus: CommandBus,
   ) {}
 
+  @Public()
   @Get()
   async index() {
     return this.usersService.FindAll();

@@ -19,7 +19,7 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty({ message: 'O CEP é obrigatório.' })
-  zip_code: string;
+  zipCode: string;
 
   @IsString()
   @IsNotEmpty({ message: 'O estado é obrigatório.' })

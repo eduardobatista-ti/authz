@@ -3,7 +3,7 @@ export class CreateUserCommand {
   lastName: string;
   email: string;
   password: string;
-  zip_code: string;
+  zipCode: string;
   state: string;
   city: string;
   neighborhood: string;

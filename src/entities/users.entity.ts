@@ -26,8 +26,8 @@ export class UsersEntity {
   @Column()
   password: string;
 
-  @Column()
-  zip_code: string;
+  @Column({ name: 'zip_code' })
+  zipCode: string;
 
   @Column()
   state: string;

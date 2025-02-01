@@ -43,5 +43,5 @@ export class CreateUserDto {
 
   @IsString()
   @IsOptional()
-  complement: string;
+  complement?: string;
 }

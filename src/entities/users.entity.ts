@@ -6,18 +6,18 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from "typeorm";
-import { hashSync } from "bcrypt";
+} from 'typeorm';
+import { hashSync } from 'bcrypt';
 
-@Entity("users")
+@Entity('users')
 export class UsersEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: "first_name" })
+  @Column({ name: 'first_name' })
   firstName: string;
 
-  @Column({ name: "last_name" })
+  @Column({ name: 'last_name' })
   lastName: string;
 
   @Column()
@@ -44,16 +44,16 @@ export class UsersEntity {
   @Column()
   number: string;
 
-  @Column()
+  @Column({ nullable: true })
   complement: string;
 
-  @CreateDateColumn({ name: "created_at" })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: string;
 
-  @UpdateDateColumn({ name: "updated_at" })
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: string;
 
-  @DeleteDateColumn({ name: "deleted_at" })
+  @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt: string;
 
   @BeforeInsert()

@@ -20,7 +20,7 @@ export class UsersEntity {
   @Column({ name: 'last_name' })
   lastName: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
@@ -28,6 +28,9 @@ export class UsersEntity {
 
   @Column({ name: 'phone_number' })
   phoneNumber: string;
+
+  @Column({ name: 'user_role' })
+  userRole: string;
 
   @Column({ name: 'zip_code' })
   zipCode: string;

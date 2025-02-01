@@ -23,7 +23,8 @@ export class CreateUserHandler
 
         return user.id;
       });
-    } catch {
+    } catch (error) {
+      console.error('Error creating new user', error);
       throw new InternalServerErrorException('Error creating new user');
     }
   }

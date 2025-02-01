@@ -3,8 +3,9 @@ export class CreateUserCommand {
   lastName: string;
   email: string;
   password: string;
-  zipCode: string;
   phoneNumber: string;
+  userRole: 'manager';
+  zipCode: string;
   state: string;
   city: string;
   neighborhood: string;

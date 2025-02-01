@@ -9,6 +9,7 @@ import { FindOneOptions, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersEntity } from 'src/entities/users.entity';
+import { compareSync } from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -63,10 +64,9 @@ export class UsersService {
   }
 
   async validateUser(email: string, password: string): Promise<UsersEntity> {
-    const user = await this.userRepository.findOneOrFail({ where: { email } });
+    const user = await this.userRepository.findOne({ where: { email } });
 
-    if (!user || user.password !== password) {
-      // In a real application, make sure to hash the password and compare the hashed values
+    if (!user || !compareSync(password, user.password)) {
       throw new UnauthorizedException('Invalid credentials');
     }
 

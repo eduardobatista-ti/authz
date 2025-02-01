@@ -10,19 +10,29 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserCommand } from './command/create-user/create-user.command';
+import { CommandBus } from '@nestjs/cqrs';
+import { plainToInstance } from 'class-transformer';
+import { Public } from 'src/auth/constants';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly commandBus: CommandBus,
+  ) {}
 
+  @Public()
   @Get()
   async index() {
     return this.usersService.FindAll();
   }
 
+  @Public()
   @Post()
   async store(@Body() body: CreateUserDto) {
-    return await this.usersService.register(body);
+    const command = plainToInstance(CreateUserCommand, body);
+    return await this.commandBus.execute(command);
   }
 
   @Get(':id')

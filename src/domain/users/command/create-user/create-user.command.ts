@@ -4,6 +4,7 @@ export class CreateUserCommand {
   email: string;
   password: string;
   zipCode: string;
+  phoneNumber: string;
   state: string;
   city: string;
   neighborhood: string;

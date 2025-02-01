@@ -26,6 +26,9 @@ export class UsersEntity {
   @Column()
   password: string;
 
+  @Column({ name: 'phone_number' })
+  phoneNumber: string;
+
   @Column({ name: 'zip_code' })
   zipCode: string;
 

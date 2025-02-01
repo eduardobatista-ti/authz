@@ -18,6 +18,10 @@ export class CreateUserDto {
   password: string;
 
   @IsString()
+  @IsNotEmpty({ message: 'O telefone é obrigatório.' })
+  phoneNumber: string;
+
+  @IsString()
   @IsNotEmpty({ message: 'O CEP é obrigatório.' })
   zipCode: string;
 

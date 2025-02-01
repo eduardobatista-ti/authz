@@ -1,10 +1,10 @@
-import { Module } from "@nestjs/common";
-import { TypeOrmModule, TypeOrmModuleOptions } from "@nestjs/typeorm";
-import { ConfigModule } from "@nestjs/config";
-import { AuthModule } from "./auth/auth.module";
-import { APP_GUARD } from "@nestjs/core";
-import { AuthGuard } from "./auth/auth.guard";
-import { UsersModule } from "./modules/users/users.module";
+import { Module } from '@nestjs/common';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth/auth.guard';
+import { UsersModule } from './domain/users/users.module';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { UsersModule } from "./modules/users/users.module";
       username: process.env.DB_USER,
       password: process.env.DB_PWD,
       database: process.env.DB_NAME,
-      entities: [__dirname + "/**/*.entity{.ts,.js}"],
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     } as TypeOrmModuleOptions),
     UsersModule,

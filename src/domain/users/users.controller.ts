@@ -13,7 +13,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserCommand } from './command/create-user/create-user.command';
 import { CommandBus } from '@nestjs/cqrs';
 import { plainToInstance } from 'class-transformer';
-import { Public } from 'src/auth/constants';
 
 @Controller('users')
 export class UsersController {
@@ -22,13 +21,11 @@ export class UsersController {
     private readonly commandBus: CommandBus,
   ) {}
 
-  @Public()
   @Get()
   async index() {
-    return this.usersService.FindAll();
+    return this.usersService.findAllManagers();
   }
 
-  @Public()
   @Post()
   async store(@Body() body: CreateUserDto) {
     const command = plainToInstance(CreateUserCommand, body);

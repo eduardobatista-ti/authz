@@ -18,9 +18,10 @@ export class UsersService {
     private readonly userRepository: Repository<UsersEntity>,
   ) {}
 
-  async FindAll() {
+  async findAllManagers() {
     return this.userRepository.find({
-      select: ['id', 'firstName', 'lastName', 'email'],
+      where: { userRole: 'manager' },
+      select: ['id', 'firstName', 'lastName', 'email', 'userRole', 'status'],
     });
   }
 
@@ -63,10 +64,12 @@ export class UsersService {
     return await this.userRepository.findOne({ where: { email } });
   }
 
-  async validateUser(email: string, password: string): Promise<UsersEntity> {
-    const user = await this.userRepository.findOne({ where: { email } });
+  async validateUser(AuthDto): Promise<UsersEntity> {
+    const user = await this.userRepository.findOne({
+      where: { email: AuthDto.email },
+    });
 
-    if (!user || !compareSync(password, user.password)) {
+    if (!user || !compareSync(AuthDto.password, user.password)) {
       throw new UnauthorizedException('Invalid credentials');
     }
 

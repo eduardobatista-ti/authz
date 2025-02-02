@@ -17,7 +17,11 @@ export class CreateUserHandler
   async execute(command: CreateUserCommand): Promise<number> {
     try {
       return await this.dataSource.transaction(async (db) => {
-        const user = db.create(UsersEntity, command ?? {});
+        const user = db.create(UsersEntity, {
+          ...command,
+          status: 'active',
+          userRole: 'manager',
+        });
 
         await db.save(user);
 

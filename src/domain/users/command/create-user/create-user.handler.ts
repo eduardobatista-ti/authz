@@ -1,20 +1,20 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { CreateUserCommand } from './create-user.command';
 import { DataSource } from 'typeorm';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { InternalServerErrorException } from '@nestjs/common';
 import { UsersEntity } from 'src/entities/users.entity';
+import { CreateUserDto } from '../../dto/create-user.dto';
 
-@CommandHandler(CreateUserCommand)
+@CommandHandler(CreateUserDto)
 export class CreateUserHandler
-  implements ICommandHandler<CreateUserCommand, number>
+  implements ICommandHandler<CreateUserDto, number>
 {
   constructor(
     @InjectDataSource()
     private readonly dataSource: DataSource,
   ) {}
 
-  async execute(command: CreateUserCommand): Promise<number> {
+  async execute(command: CreateUserDto): Promise<number> {
     try {
       return await this.dataSource.transaction(async (db) => {
         const user = db.create(UsersEntity, {

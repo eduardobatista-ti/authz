@@ -28,7 +28,7 @@ export class UsersController {
 
   @Post()
   async store(@Body() body: CreateUserDto) {
-    const command = plainToInstance(CreateUserCommand, body);
+    const command = plainToInstance(CreateUserDto, body);
     return await this.commandBus.execute(command);
   }
 

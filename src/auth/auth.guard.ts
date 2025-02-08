@@ -3,17 +3,19 @@ import {
   ExecutionContext,
   Injectable,
   UnauthorizedException,
-} from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
-import { IS_PUBLIC_KEY, jwtConstants } from "./constants";
-import { Request } from "express";
-import { Reflector } from "@nestjs/core";
+  ForbiddenException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { IS_PUBLIC_KEY, jwtConstants } from './constants';
+import { Request } from 'express';
+import { Reflector } from '@nestjs/core';
+import { Role } from './roles.enum';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
-    private reflector: Reflector
+    private reflector: Reflector,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -37,15 +39,30 @@ export class AuthGuard implements CanActivate {
       });
       // 💡 We're assigning the payload to the request object here
       // so that we can access it in our route handlers
-      request["user"] = payload;
+      request['user'] = payload;
     } catch {
       throw new UnauthorizedException();
     }
+
+    const roles = this.reflector.getAllAndOverride<Role[]>('roles', [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+
+    if (roles) {
+      const user = request['user'];
+      if (!roles.includes(user?.role)) {
+        throw new ForbiddenException(
+          'Access denied. Insufficient permissions.',
+        );
+      }
+    }
+
     return true;
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(" ") ?? [];
-    return type === "Bearer" ? token : undefined;
+    const [type, token] = request.headers.authorization?.split(' ') ?? [];
+    return type === 'Bearer' ? token : undefined;
   }
 }

@@ -1,15 +1,16 @@
 import {
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
   Injectable,
   UnauthorizedException,
-  ForbiddenException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { IS_PUBLIC_KEY, jwtConstants } from './constants';
+import { IS_PUBLIC_KEY, jwtConstants } from '../constants';
 import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
 import { Role } from './roles.enum';
+import { ROLES_KEY } from './roles.decorator';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -44,17 +45,15 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
 
-    const roles = this.reflector.getAllAndOverride<Role[]>('roles', [
+    const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
       context.getHandler(),
       context.getClass(),
     ]);
 
-    if (roles) {
-      const user = request['user'];
-      if (!roles.includes(user?.role)) {
-        throw new ForbiddenException(
-          'Access denied. Insufficient permissions.',
-        );
+    if (requiredRoles && requiredRoles.length > 0) {
+      const userRole = request.user.role;
+      if (!requiredRoles.includes(userRole)) {
+        throw new ForbiddenException('Acesso negado');
       }
     }
 

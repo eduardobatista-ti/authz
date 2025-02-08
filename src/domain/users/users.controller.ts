@@ -13,6 +13,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserCommand } from './command/create-user/create-user.command';
 import { CommandBus } from '@nestjs/cqrs';
 import { plainToInstance } from 'class-transformer';
+import { Roles } from 'src/auth/guard/roles.decorator';
+import { Role } from 'src/auth/guard/roles.enum';
 
 @Controller('users')
 export class UsersController {
@@ -21,6 +23,7 @@ export class UsersController {
     private readonly commandBus: CommandBus,
   ) {}
 
+  @Roles(Role.ADMIN)
   @Get()
   async index() {
     return this.usersService.findAllManagers();

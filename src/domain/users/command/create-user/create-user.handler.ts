@@ -7,14 +7,14 @@ import { CreateUserDto } from '../../dto/create-user.dto';
 
 @CommandHandler(CreateUserDto)
 export class CreateUserHandler
-  implements ICommandHandler<CreateUserDto, number>
+  implements ICommandHandler<CreateUserDto, string>
 {
   constructor(
     @InjectDataSource()
     private readonly dataSource: DataSource,
   ) {}
 
-  async execute(command: CreateUserDto): Promise<number> {
+  async execute(command: CreateUserDto): Promise<string> {
     try {
       return await this.dataSource.transaction(async (db) => {
         const user = db.create(UsersEntity, {

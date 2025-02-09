@@ -36,17 +36,17 @@ export class UsersController {
   }
 
   @Get(':id')
-  async show(@Param('id') id: number) {
+  async show(@Param('id') id: string) {
     return await this.usersService.FindOneOrFail({ where: { id } });
   }
 
   @Put(':id')
-  async update(@Param('id') id: number, body: UpdateUserDto) {
+  async update(@Param('id') id: string, body: UpdateUserDto) {
     return await this.usersService.update(id, body);
   }
 
   @Delete(':id')
-  async destroy(@Param('id') id: number) {
+  async destroy(@Param('id') id: string) {
     await this.usersService.destroy(id);
   }
 }

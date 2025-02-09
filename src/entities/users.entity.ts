@@ -21,6 +21,9 @@ export class UsersEntity {
   @Column({ name: 'last_name' })
   lastName: string;
 
+  @Column({ name: 'image_path', nullable: true })
+  imagePath: string;
+
   @Column({ unique: true })
   email: string;
 

@@ -3,7 +3,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './auth/auth.guard';
+import { AuthGuard } from './auth/guard/auth.guard';
 import { UsersModule } from './domain/users/users.module';
 
 @Module({

@@ -1,19 +1,22 @@
 import {
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
   Injectable,
   UnauthorizedException,
-} from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
-import { IS_PUBLIC_KEY, jwtConstants } from "./constants";
-import { Request } from "express";
-import { Reflector } from "@nestjs/core";
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { IS_PUBLIC_KEY, jwtConstants } from '../constants';
+import { Request } from 'express';
+import { Reflector } from '@nestjs/core';
+import { Role } from './roles.enum';
+import { ROLES_KEY } from './roles.decorator';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
-    private reflector: Reflector
+    private reflector: Reflector,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -22,7 +25,6 @@ export class AuthGuard implements CanActivate {
       context.getClass(),
     ]);
     if (isPublic) {
-      // 💡 See this condition
       return true;
     }
 
@@ -35,17 +37,28 @@ export class AuthGuard implements CanActivate {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: jwtConstants.secret,
       });
-      // 💡 We're assigning the payload to the request object here
-      // so that we can access it in our route handlers
-      request["user"] = payload;
+      request['user'] = payload;
     } catch {
       throw new UnauthorizedException();
     }
+
+    const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+
+    if (requiredRoles && requiredRoles.length > 0) {
+      const userRole = request.user.role;
+      if (!requiredRoles.includes(userRole)) {
+        throw new ForbiddenException('Acesso negado');
+      }
+    }
+
     return true;
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(" ") ?? [];
-    return type === "Bearer" ? token : undefined;
+    const [type, token] = request.headers.authorization?.split(' ') ?? [];
+    return type === 'Bearer' ? token : undefined;
   }
 }

@@ -4,15 +4,16 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { hashSync } from 'bcrypt';
+import {v4 as uuidv4} from 'uuid'
 
 @Entity('users')
 export class UsersEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn('uuid')
+  id: string;
 
   @Column({ name: 'first_name' })
   firstName: string;
@@ -20,11 +21,17 @@ export class UsersEntity {
   @Column({ name: 'last_name' })
   lastName: string;
 
+  @Column({ name: 'image_path', nullable: true })
+  imagePath: string;
+
   @Column({ unique: true })
   email: string;
 
   @Column()
   password: string;
+
+  @Column()
+  status: string;
 
   @Column({ name: 'phone_number' })
   phoneNumber: string;
@@ -63,7 +70,10 @@ export class UsersEntity {
   deletedAt: string;
 
   @BeforeInsert()
-  hashedPassword() {
+  generateIdAndHashPassword() {
+    if (!this.id) {
+      this.id = uuidv4(); 
+    }
     this.password = hashSync(this.password, 10);
   }
 }

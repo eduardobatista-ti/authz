@@ -13,7 +13,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserCommand } from './command/create-user/create-user.command';
 import { CommandBus } from '@nestjs/cqrs';
 import { plainToInstance } from 'class-transformer';
-import { Public } from 'src/auth/constants';
+import { Roles } from 'src/auth/guard/roles.decorator';
+import { Role } from 'src/auth/guard/roles.enum';
 
 @Controller('users')
 export class UsersController {
@@ -22,31 +23,30 @@ export class UsersController {
     private readonly commandBus: CommandBus,
   ) {}
 
-  @Public()
+  @Roles(Role.ADMIN)
   @Get()
   async index() {
-    return this.usersService.FindAll();
+    return this.usersService.findAllManagers();
   }
 
-  @Public()
   @Post()
   async store(@Body() body: CreateUserDto) {
-    const command = plainToInstance(CreateUserCommand, body);
+    const command = plainToInstance(CreateUserDto, body);
     return await this.commandBus.execute(command);
   }
 
   @Get(':id')
-  async show(@Param('id') id: number) {
+  async show(@Param('id') id: string) {
     return await this.usersService.FindOneOrFail({ where: { id } });
   }
 
   @Put(':id')
-  async update(@Param('id') id: number, body: UpdateUserDto) {
+  async update(@Param('id') id: string, body: UpdateUserDto) {
     return await this.usersService.update(id, body);
   }
 
   @Delete(':id')
-  async destroy(@Param('id') id: number) {
+  async destroy(@Param('id') id: string) {
     await this.usersService.destroy(id);
   }
 }

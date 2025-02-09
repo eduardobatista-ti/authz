@@ -23,7 +23,7 @@ export class UsersController {
     private readonly commandBus: CommandBus,
   ) {}
 
-  @Roles(Role.ADMIN)
+  // @Roles(Role.ADMIN)
   @Get()
   async index() {
     return this.usersService.findAllManagers();

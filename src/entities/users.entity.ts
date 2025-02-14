@@ -8,7 +8,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { hashSync } from 'bcrypt';
-import {v4 as uuidv4} from 'uuid'
+import { v4 as uuidv4 } from 'uuid';
+import { Exclude } from 'class-transformer';
 
 @Entity('users')
 export class UsersEntity {
@@ -27,9 +28,11 @@ export class UsersEntity {
   @Column({ unique: true })
   email: string;
 
+  @Exclude()
   @Column()
   password: string;
 
+  @Exclude()
   @Column()
   status: string;
 
@@ -60,19 +63,22 @@ export class UsersEntity {
   @Column({ nullable: true })
   complement: string;
 
+  @Exclude()
   @CreateDateColumn({ name: 'created_at' })
   createdAt: string;
 
+  @Exclude()
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: string;
 
+  @Exclude()
   @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt: string;
 
   @BeforeInsert()
   generateIdAndHashPassword() {
     if (!this.id) {
-      this.id = uuidv4(); 
+      this.id = uuidv4();
     }
     this.password = hashSync(this.password, 10);
   }

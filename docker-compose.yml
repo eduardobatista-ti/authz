@@ -1,7 +1,7 @@
 services:
   mariadb-development:
     image: mariadb:latest
-    container_name: mariadb
+    container_name: mariadb-api-node
     environment:
       MYSQL_ROOT_PASSWORD: dockerpass
       MYSQL_USER: database_docker

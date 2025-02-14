@@ -33,6 +33,11 @@ export class UsersService {
     }
   }
 
+  async findMe(id: string): Promise<UsersEntity> {
+    const meData = await this.userRepository.findOne({ where: { id: id } });
+    return meData;
+  }
+
   // async store(data: CreateUserDto) {
   //   const user = this.userRepository.create(data);
   //   return await this.userRepository.save(user);
